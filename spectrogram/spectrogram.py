@@ -31,7 +31,7 @@ def read(stream, window_size):
     return x
 
 #w = wave.open('its-not-that-easy.wav', 'r')
-w = wave.open('you-call-that-fun.wav', 'r')
+w = wave.open('../wav-files/you-call-that-fun.wav', 'r')
 window_size = 1024
 sample_width = w.getsampwidth()
 sample_rate  = w.getframerate()
