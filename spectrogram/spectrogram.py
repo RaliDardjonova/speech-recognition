@@ -1,18 +1,26 @@
-#!/usr/bin/env python
+#!/usr/bin/python3.6
 import wave
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 
 def get_windows(stream, window_size):
+    little_window = int(window_size*(3.0/4.0))
     X = []
+    x = read(stream, window_size)
+    if len(x) != window_size:
+        return
+    X.extend(x)
+    yield np.array(X)
+    X = X[little_window:]
     while True:
-        x = read(stream, window_size)
-        if len(x) != window_size:
+        x = read(stream, little_window)
+        if len(x) != little_window:
             break
         X.extend(x)
+        #print len(X)
         yield np.array(X)
-        X = X[window_size:]
+        X = X[little_window:]
 
 def read(stream, window_size):
     num_channels = stream.getnchannels()
@@ -27,7 +35,6 @@ def read(stream, window_size):
         x = (x[:,0] + x[:,1]) / 2
     else:
         x = x[:,0]
-
     return x
 
 #w = wave.open('its-not-that-easy.wav', 'r')
@@ -40,18 +47,28 @@ hann = 0.5 - 0.5 * np.cos(2.0 * np.pi * (np.arange(window_size)) / window_size)
 Y = []
 for x in get_windows(w, window_size):
     y = np.fft.rfft(x*hann)
-    y = y[:window_size//2]
+    #print len(y)
+    #print np.fft.rfftfreq(1024)
     Y.append(y)
 
 Y = np.column_stack(Y)
-Y = np.absolute(Y) * 2.0 / np.sum(hann)
-Y = Y / np.power(2.0, (8 * sample_width - 1))
+# tuk za wseki red da wzimame razlichnite featur-i
+# w edin cikyl - za wseki red se wzimat featu-rite i se slagat w now masiv
+# kydeto na wseki red shte imame nqkolko feature-a i klasa(bukwata)
+# sreden ygyl, maks ygyl, sredna amplituda, maks amplituda i na koe mqsto, intenzitet, stand. otklonenie
+print(Y)
+#print 1
+Y = np.absolute(Y)
+Y = Y / np.sum(hann)
+Y = Y*Y / np.power(2.0, (8 * sample_width - 1))
 Y = (20.0 * np.log10(Y)).clip(-120)
 
-print Y
+#print sample_rate
+#print Y
 
 t = np.arange(0, Y.shape[1], dtype=np.float) * window_size / sample_rate
-f = np.arange(0, window_size / 2, dtype=np.float) * sample_rate / window_size
+f = np.arange(0, window_size/2 + 1, dtype=np.float) * sample_rate / window_size
+print(f)
 ax = plt.subplot(111)
 plt.pcolormesh(t, f, Y, vmin=-120, vmax=0)
 
