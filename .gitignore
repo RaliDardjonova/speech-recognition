@@ -20,5 +20,6 @@
 *.tar
 *.zip
 
-**/wav-files
+**/test-wav
 **/splitAudio
+**/wav-files
