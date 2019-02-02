@@ -146,10 +146,10 @@ audio_chunks = split_on_silence(sound_file,
 )
 print "*"
 '''
-for i, filename in enumerate(os.listdir(".//splitAudio/gerasim-momiche")):
-    rel_filename = ".//splitAudio/gerasim-momiche/" + filename
+for i, filename in enumerate(os.listdir(".//splitAudio/radina")):
+    rel_filename = ".//splitAudio/radina/" + filename
     features = get_features(rel_filename, words[shuffled_words[i]-1]) # shuffled_words[i]-1
-    write_file = open(".//features//features-gerasim-momiche2.txt", "a")
+    write_file = open(".//features//features-radina.txt", "a")
     write_file.write("\n"+words[shuffled_words[i]-1]+"\n")
     for row in features:
         for f in row:

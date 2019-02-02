@@ -3,6 +3,7 @@ import wave
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker
+import time
 
 def get_windows(stream, window_size):
     little_window = int(window_size*(3.0/4.0))
@@ -43,6 +44,9 @@ window_size = 1024
 sample_width = w.getsampwidth()
 sample_rate  = w.getframerate()
 hann = 0.5 - 0.5 * np.cos(2.0 * np.pi * (np.arange(window_size)) / window_size)
+
+print(np.fft.rfftfreq(window_size))
+time.sleep(5.5)
 
 Y = []
 for x in get_windows(w, window_size):
