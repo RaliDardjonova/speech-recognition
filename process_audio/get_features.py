@@ -73,17 +73,27 @@ def get_features(filename, word):
     #print Y
     #print 1
     window_count = Y.shape[0]
-    print(window_count)
+
+    total_max_ampl = 0
+    for index, chunk in enumerate(Y):
+        amplitudes = np.absolute(chunk)
+        max_amplitude = np.max(amplitudes)
+        if max_amplitude > total_max_ampl:
+            total_max_ampl = max_amplitude
+    #print(window_count)
+    #print(total_max_ampl)
+
     features = []
     index = 0;
+
     for index, chunk in enumerate(Y):
-        print(index)
+        #print(index)
 
         feature = []
         chunk_len = len(chunk)
         angles = np.angle(chunk)
         amplitudes = np.absolute(chunk)
-        #amplitudes = amplitudes/(maks na maks-a na wsichki amplitudi v dumata) ako shte normirame do 1?
+        amplitudes = amplitudes/total_max_ampl # normalize amplitudes to the max found in a word
 
         intensities = amplitudes*amplitudes
 
@@ -115,7 +125,7 @@ def get_features(filename, word):
     w.close()
     return features
 
-word_file = open("words.txt", 'r')
+word_file = open("words-stoyan.txt", 'r')
 words = word_file.read().splitlines()
 
 shuffled_words = [256, 255, 254, 252, 251, 250,249,248, 247, 245, 244, 242, 241,
@@ -146,11 +156,11 @@ audio_chunks = split_on_silence(sound_file,
 )
 print "*"
 '''
-for i, filename in enumerate(os.listdir(".//splitAudio/radina")):
-    rel_filename = ".//splitAudio/radina/" + filename
-    features = get_features(rel_filename, words[shuffled_words[i]-1]) # shuffled_words[i]-1
-    write_file = open(".//features//features-radina.txt", "a")
-    write_file.write("\n"+words[shuffled_words[i]-1]+"\n")
+for i, filename in enumerate(os.listdir(".//splitAudio/stoyan")):
+    rel_filename = ".//splitAudio/stoyan/" + filename
+    features = get_features(rel_filename, words[i]) # shuffled_words[i]-1
+    write_file = open(".//features//features-stoyan3.txt", "a")
+    write_file.write("\n"+words[i]+"\n")
     for row in features:
         for f in row:
             write_file.write(str(f)+",")
