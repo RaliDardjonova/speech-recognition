@@ -45,9 +45,6 @@ def read(stream, window_size):
 def get_class(index, word, all_count):
     word_len = len(word)
     class_index = (float(index)/float(all_count))*word_len
-    #print all_count
-    #print index
-    #print class_index
     return word[int(class_index)]
 
 
@@ -86,7 +83,7 @@ def get_features(filename, word):
         chunk_len = len(chunk)
         angles = np.angle(chunk)
         amplitudes = np.absolute(chunk)
-        #amplitudes = amplitudes/np.max(amplitudes) ako shte normirame do 1?
+        #amplitudes = amplitudes/(maks na maks-a na wsichki amplitudi v dumata) ako shte normirame do 1?
 
         intensities = amplitudes*amplitudes
 
@@ -105,14 +102,14 @@ def get_features(filename, word):
         feature.append(get_class(index, word, window_count))
         feature.append(ampl_argmax)
         feature.append(max_amplitude)
-        feature.append(angle_argmax)
-        feature.append(angle_max)
+        #feature.append(angle_argmax)
+        #feature.append(angle_max)
         feature.append(ampl_mean)
         feature.append(int_mean)
-        feature.append(angle_mean)
+        #feature.append(angle_mean)
         feature.append(ampl_std)
         feature.append(int_std)
-        feature.append(angle_std)
+        #feature.append(angle_std)
 
         features.append(feature)
     w.close()
@@ -149,9 +146,9 @@ audio_chunks = split_on_silence(sound_file,
 )
 print "*"
 '''
-for i, filename in enumerate(os.listdir(".//splitAudio")):
-    rel_filename = ".//splitAudio/" + filename
-    features = get_features(rel_filename, words[shuffled_words[i]-1])
+for i, filename in enumerate(os.listdir(".//splitAudio/gerasim-momiche")):
+    rel_filename = ".//splitAudio/gerasim-momiche/" + filename
+    features = get_features(rel_filename, words[shuffled_words[i]-1]) # shuffled_words[i]-1
     write_file = open(".//features//features-gerasim-momiche2.txt", "a")
     write_file.write("\n"+words[shuffled_words[i]-1]+"\n")
     for row in features:

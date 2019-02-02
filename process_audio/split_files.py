@@ -2,7 +2,7 @@
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 
-sound_file = AudioSegment.from_wav("../wav-files/kimche+stoyan-wav/audioclip-1547040502000-0.wav")
+sound_file = AudioSegment.from_wav("../wav-files/kimche+stoyan-wav/stoyan-3.wav")
 audio_chunks = split_on_silence(sound_file,
     # must be silent for at least half a second
     min_silence_len=500,
@@ -12,6 +12,6 @@ audio_chunks = split_on_silence(sound_file,
 )
 
 for i, chunk in enumerate(audio_chunks):
-    out_file = ".//splitAudio//chunk{0}.wav".format(i)
+    out_file = ".//splitAudio//stoyan//chunk{0}.wav".format(i+151)
     print("exporting", out_file)
     chunk.export(out_file, format="wav")

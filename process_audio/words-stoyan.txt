@@ -157,7 +157,6 @@ panaritium
 pancarditis
 paronychla
 paroxysmalis
-paroxysmalis
 parvulae
 pectoris
 pemphigus
@@ -212,7 +211,6 @@ senilis
 septica
 serosis
 shock
-sinistri
 solaris
 splenomegaliam
 spontanea
